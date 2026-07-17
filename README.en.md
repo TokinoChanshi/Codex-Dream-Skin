@@ -91,7 +91,10 @@ One image, one mood. Real theme previews you can ship:
 - **Real UI** — Sidebar, cards, project picker, and input stay native. Not a fake full-window screenshot.
 - **Swappable art** — Drop in an image you like and it becomes your theme.
 - **Restorable** — One-click restore to the stock look.
-- **Safer path** — Local-loopback CDP inject only. No official binary or signature changes.
+- **No package mutation** — Uses local-loopback CDP without changing the official binary or signature.
+
+> [!WARNING]
+> **Loopback does not mean authenticated.** While the skin is active, Codex exposes Chromium DevTools Protocol on `127.0.0.1`. Other LAN devices cannot connect directly, but another program running locally can still attempt to attach and may inspect rendered content, execute JavaScript with renderer privileges, or operate the UI. Run only trusted local software and use a full **Restore** when you are done; pausing only the injector does not close an existing CDP listener. See the [local CDP security boundary](./docs/cdp-security.md).
 
 ## Quick start
 
@@ -107,6 +110,7 @@ More detail:
 - Mac: [`macos/README.md`](./macos/README.md)
 - Windows: [`windows/SKILL.md`](./windows/SKILL.md)
 - Paths: [`docs/platforms.md`](./docs/platforms.md)
+- CDP risk and shutdown guidance: [`docs/cdp-security.md`](./docs/cdp-security.md)
 - Project notes: [`docs/PROJECT.md`](./docs/PROJECT.md)
 
 ## Feedback & contributions
@@ -116,7 +120,8 @@ More detail:
 
 ## Safety
 
-- CDP binds `127.0.0.1` only — avoid untrusted local processes while the theme runs.
+- CDP binds `127.0.0.1`, but it does not authenticate local processes. Avoid untrusted local software while the theme runs.
+- A full Restore closes the debug-enabled Codex session and reopens it normally. Pausing only the injector does not close an existing CDP listener.
 - Does not touch the official install directory or code signature.
 - **Never** rewrites API Key / Base URL; relay and theme stay separate.
 
