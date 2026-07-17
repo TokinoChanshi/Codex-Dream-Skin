@@ -90,7 +90,10 @@
 - **真·可交互**：侧栏、建议卡、项目选择、输入框都是原生控件，不是整窗假截图贴上去
 - **可换图**：换一张喜欢的图，就能变成你的主题
 - **可恢复**：一键还原官方外观
-- **相对安全**：本机回环 CDP 注入，不改官方二进制与签名
+- **不改官方包**：通过本机回环 CDP 注入，不改官方二进制与签名
+
+> [!WARNING]
+> **回环地址不等于已认证。** 皮肤运行期间，Codex 的 Chromium DevTools Protocol 端口只监听 `127.0.0.1`，局域网设备无法直接访问；但能在本机运行的其他程序仍可尝试连接，并可能以渲染器权限读取页面内容、执行 JavaScript 或操作界面。仅运行可信本机软件；不用皮肤时请执行完整 **Restore**，而不是只暂停 injector。详见 [CDP 本机安全边界](./docs/cdp-security.md)。
 
 ## 快速开始
 
@@ -106,6 +109,7 @@
 - Mac：[`macos/README.md`](./macos/README.md)
 - Windows：[`windows/SKILL.md`](./windows/SKILL.md)
 - 路径对照：[`docs/platforms.md`](./docs/platforms.md)
+- CDP 风险与关闭方法：[`docs/cdp-security.md`](./docs/cdp-security.md)
 - 项目记录：[`docs/PROJECT.md`](./docs/PROJECT.md)
 
 ## 反馈与贡献
@@ -115,7 +119,8 @@
 
 ## 安全边界
 
-- CDP 只绑 `127.0.0.1`，主题运行期间勿跑来路不明的本机程序
+- CDP 只绑 `127.0.0.1`，但不认证本机进程；主题运行期间勿跑来路不明的本机程序
+- 完整 Restore 会关闭带调试参数的 Codex 并以普通模式重开；只暂停 injector 不会关闭已经开放的 CDP 端口
 - 不修改官方安装目录与代码签名
 - **不会**自动改写 API Key / Base URL；中转与换肤分开
 
